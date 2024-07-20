@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if user.is_authenticated and user.user_type == 'user' %}
+        <div class="text-center">
+            <a href="{% url 'add_review' product.pk %}" class="btn btn-primary mt-3">Add your post</a>
+        </div>
+        <br>
+        <br>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-8" >
+            <div class="card shadow-sm mb-4" >
+                <div class="card-body text-center">
+                    <h1 class="card-title">{{ product.name }}</h1>
+                    <img src="{{ product.image.url }}" class="img-fluid rounded mb-3" alt="{{ product.name }}">
+                    <p>{{ product.description }}</p>
+                    <p>Price: ${{ product.price }}</p>
+                    <p>Average Rating: {{ product.average_rating|floatformat:1 }}</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h2 class="mb-3 text-center">Posts</h2>
+                {% for review in reviews %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review.user.username }} - {{ review.rating }}/5</h5>
+                            <p class="card-text">{{ review.content }}</p>
+                            {% if review.image %}
+                                <img src="{{ review.image.url }}" class="img-fluid rounded mb-3" alt="Review image">
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-center">No posts yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+</body>
+</html>

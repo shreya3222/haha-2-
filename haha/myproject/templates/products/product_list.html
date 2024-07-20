@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* Custom styles */
+    body {
+        background-image: url('https://cdn.prod.website-files.com/5a9ee6416e90d20001b20038/64f5cf0ff2005cf7ecbe9985_Rectangle%20(28).svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+    </style>
+<body>
+    {% extends 'base.html' %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-4" style="color: white;">Products</h1>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body" style="background-color: rgba(179, 179, 179, 0);">
+                            <h2 class="card-title"><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h2>
+                            <p class="card-text">Price: ${{ product.price }}</p>
+                            <p class="card-text">Average Rating: {{ product.average_rating|floatformat:1 }}</p>
+                            <p class="card-text">Posts: {{ product.review_count }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+</body>
+</html>
